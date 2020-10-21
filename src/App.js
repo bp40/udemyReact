@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+  import React, { useState } from 'react';
+  import './App.css';
+  import Person from './Person/Person';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const App = props => {
+    const [ personState, setPersonState ] = useState({
+      persons: [
+        {name: 'test', color: 'blue'},
+        {name: 'wooooo', color: 'green'},
+      ]
+    });
 
-export default App;
+    const [ otherState, setOtherState] = useState('Other state uf you have one')
+    
+    const randomOrderHandler = () => {
+      //console.log("Button was clicked");
+      setPersonState({
+        persons: [
+          {name: 'IT CHANGED!!!', color: 'red'},
+          {name: 'wooooo', color: 'green'},
+        ]
+      })
+    }
+    
+    return(
+        <div className="App">
+          <h1>This is the most awesome home page ever!</h1>
+          <p>this is a paragraph tag</p>
+          <button onClick={randomOrderHandler}>RANDOMIZER3000</button>
+          <Person name={personState.persons[0].name} color={personState.persons[0].color}>THE CHILDRENS</Person>
+          <Person name={personState.persons[1].name} color={personState.persons[1].color}>Hope this works</Person>
+        </div>
+      );
+    } 
+    //same as
+    //return React.createElement('div', null, React.createElement('h1', null, 'This is using createElement'))
+
+  export default App;

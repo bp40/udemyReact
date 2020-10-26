@@ -11,22 +11,34 @@ class App extends Component {
       otherState: "if you have one"
     };
 
-  randomOrderHandler = () => {
+  randomOrderHandler = (newName) => { 
     this.setState({
       nameColor: [
-        {name: 'tset', color: 'orange'},
+        {name: newName, color: 'orange'},
         {name: 'ooooow', color: 'red'},
       ]
     });
   }
+
+  nameChangeHandler = (event) => { //handles changing the name of the prop it is passed in
+    this.setState({
+      nameColor: [
+        {name: 'test', color: 'orange'},
+        {name: event.target.value, color: 'red'},
+      ]
+    });
+  }
+
   render () {
     return(
       <div className="App">
         <h1>This is the most awesome home page ever!</h1>
         <p>this is a paragraph tag</p>
-        <button onClick={this.randomOrderHandler}>RANDOMIZER3000</button>
-        <Person name={this.state.nameColor[0].name} color={this.state.nameColor[0].color}>THE CHILDRENS</Person>
-        <Person name={this.state.nameColor[1].name} color={this.state.nameColor[1].color}>Hope this works</Person>
+        {/* this arrow function : not the most efficent way to pass arguments */}
+        <button onClick={() => this.randomOrderHandler('test!')}>RANDOMIZER3000</button>
+        {/* bind is the other way to pass arguments */}
+        <Person name={this.state.nameColor[0].name} color={this.state.nameColor[0].color} click={this.randomOrderHandler.bind(this, '!tset')}>THE CHILDRENS</Person>
+        <Person name={this.state.nameColor[1].name} color={this.state.nameColor[1].color} change={this.nameChangeHandler}>Hope this works</Person>
       </div>
         );
       } 

@@ -30,12 +30,24 @@ class App extends Component {
   }
 
   render () {
+    //inline styling
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid red',
+      padding: '8px',
+      cursor: 'pointer',
+
+    }
+
     return(
       <div className="App">
         <h1>This is the most awesome home page ever!</h1>
         <p>this is a paragraph tag</p>
         {/* this arrow function : not the most efficent way to pass arguments */}
-        <button onClick={() => this.randomOrderHandler('test!')}>RANDOMIZER3000</button>
+        <button 
+          style = {style}
+          onClick = {() => this.randomOrderHandler('test!')}>RANDOMIZER3000</button>
         {/* bind is the other way to pass arguments */}
         <Person name={this.state.nameColor[0].name} color={this.state.nameColor[0].color} click={this.randomOrderHandler.bind(this, '!tset')}>THE CHILDRENS</Person>
         <Person name={this.state.nameColor[1].name} color={this.state.nameColor[1].color} change={this.nameChangeHandler}>Hope this works</Person>

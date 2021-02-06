@@ -5,13 +5,13 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     nameColor: [
-      {name: 'test', color: 'blue'},
-      {name: 'wooooo', color: 'green'},
+      {id: '1',name: 'test', color: 'blue'},
+      {id: '2',name: 'wooooo', color: 'green'},
     ],
       otherState: "if you have one",
       showPerson: false,
     };
-
+    /* Deprecated
     reverseOrderHandler = () => { 
     this.setState({
       nameColor: [
@@ -20,11 +20,22 @@ class App extends Component {
       ]
     });
   }
-
+  */
+  
   togglePersonHandler = () => {
     const toggleStatus = !this.state.showPerson;
     this.setState({showPerson: toggleStatus});
   }
+  
+  //when editing state you should not mutate the state directly (Immutable)
+  //create a copy and change that then update the state 
+  deletePersonHandler = (nameIndex) => {
+    // const names = this.state.nameColor.slice();  //.slice copies the array
+    const names = [...this.state.nameColor]; //this is kinda modern but weird //jsspread operator 
+    names.splice(nameIndex, 1); //removes 1 element from array 
+    this.setState({nameColor: names});
+  }
+  
 
   nameChangeHandler = (event) => { //handles changing the name of the prop it is passed in
     this.setState({
@@ -52,6 +63,16 @@ class App extends Component {
       persons = (
         <div className="persons">
           <button onClick={this.reverseOrderHandler}>RANDOMIZER3000</button>
+
+          {this.state.nameColor.map((nameColor, index) => {
+            return <Person
+              key = {nameColor.id}
+              click = {() => this.deletePersonHandler(index)}
+              //The other way is click = {this.deletePersonHandler.bind(this, index)}
+              name = {nameColor.name}
+              color = {nameColor.color}/>
+          })}
+          {/*}   .map() replaces the need of this //DEPRECATED//
           <Person 
             name={this.state.nameColor[0].name} 
             color={this.state.nameColor[0].color}>
@@ -63,6 +84,7 @@ class App extends Component {
             color={this.state.nameColor[1].color}>
             Hope this works
           </Person>
+          {*/}
         </div>
       );
     }

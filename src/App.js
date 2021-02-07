@@ -36,14 +36,20 @@ class App extends Component {
     this.setState({nameColor: names});
   }
   
-
-  nameChangeHandler = (event) => { //handles changing the name of the prop it is passed in
-    this.setState({
-      nameColor: [
-        {name: 'test', color: 'orange'},
-        {name: event.target.value, color: 'red'},
-      ]
+  //https://www.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/8091078#questions/8167356
+  nameChangeHandler = (event, id) => { //handles changing the name of the prop it is passed in
+    const nameColorIndex = this.state.nameColor.findIndex(currentNameColor => {
+      return currentNameColor.id === id; //finds the nameColor with specified id
     });
+    const copiedNameColor = {
+      ...this.state.nameColor[nameColorIndex] 
+      //Object.assign({}, this.state.nameColor[nameColorIndex]); also works
+    }
+    copiedNameColor.name = event.target.value;
+    const copiedArrayNameColors = [...this.state.nameColor];
+    copiedArrayNameColors[nameColorIndex] = copiedNameColor;
+    
+    this.setState({nameColor: copiedArrayNameColors});
   }
 
   render () { 
@@ -62,15 +68,15 @@ class App extends Component {
     if(this.state.showPerson) {
       persons = (
         <div className="persons">
-          <button onClick={this.reverseOrderHandler}>RANDOMIZER3000</button>
 
           {this.state.nameColor.map((nameColor, index) => {
             return <Person
               key = {nameColor.id}
-              click = {() => this.deletePersonHandler(index)}
+              click = {() => this.deletePersonHandler(index)}              
               //The other way is click = {this.deletePersonHandler.bind(this, index)}
               name = {nameColor.name}
-              color = {nameColor.color}/>
+              color = {nameColor.color}
+              changed = {(event) => this.nameChangeHandler(event, nameColor.id)}/>
           })}
           {/*}   .map() replaces the need of this //DEPRECATED//
           <Person 
